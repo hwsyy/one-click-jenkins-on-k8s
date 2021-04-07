@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${NAMESPACE}-clusterip
+  namespace: ${NAMESPACE}
+  labels:
+    app: ${NAMESPACE}-cluserip
+spec:
+  selector:
+    app: ${NAMESPACE}-deployment
+  ports:
+  - name: web
+    port: 80
+    targetPort: web
+  - name: agent
+    port: 50000
+    targetPort: agent

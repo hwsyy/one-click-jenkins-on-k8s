@@ -1,0 +1,15 @@
+## Please do not delete this pvc, unless you are sure
+## you konw the consequences
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${NAMESPACE}-pvc
+  namespace: ${NAMESPACE}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: jenkins-storageclass
+  volumeName: ${NAMESPACE}-pv
+  resources:
+    requests:
+      storage: 2000Gi

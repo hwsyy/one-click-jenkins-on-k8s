@@ -1,0 +1,11 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: jenkins-storageclass
+  # annotations:
+  #   storageclass.kubernetes.io/is-default-class: "true"
+provisioner: efs.csi.aws.com
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+mountOptions:
+  - debug

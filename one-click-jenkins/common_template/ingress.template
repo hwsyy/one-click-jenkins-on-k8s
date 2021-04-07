@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ${NAMESPACE}-ingress
+  namespace: ${NAMESPACE}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # 以下三个anno与session固定相关
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    # nginx的IP、路径访问控制
+    # nginx.ingress.kubernetes.io/server-snippet: |
+        # server_name clusterself.jenkinsci.trendmicro.com;
+        # location ~* ^/manage
+        # {
+        #     allow 10.64.17.179;
+        #     deny all;
+        # }
+spec:
+  tls:
+  - secretName: ${NAMESPACE}-tls
+  rules:
+    - host: clusterself-stg.jenkinsci.trendmicro.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ${NAMESPACE}-clusterip
+              servicePort: 80
